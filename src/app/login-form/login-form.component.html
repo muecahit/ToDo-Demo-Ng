@@ -1,0 +1,25 @@
+<!-- Inline Form start -->
+<form #form="ngForm" class="form inline" (submit)="logIn(form)" *ngIf="notInLoginRoute() && displayInline">
+  <div class="form-group">
+    <input type="text" placeholder="Email" name="email" ngModel>
+  </div>
+  <div class="form-group">
+    <input type="password" placeholder="Password" name="password" ngModel>
+  </div>
+  <input type="submit" value="Einloggen">
+</form>
+<!-- Inline Form end -->
+
+<!-- Normal Form start -->
+<form #form="ngForm" class="form" (submit)="logIn(form)" *ngIf="!displayInline">
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input type="text" id="email" name="email" ngModel>
+  </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" ngModel>
+  </div>
+  <input type="submit" value="Einloggen">
+</form>
+<!-- Normal Form end -->

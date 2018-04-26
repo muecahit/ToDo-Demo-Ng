@@ -1,0 +1,53 @@
+
+* {
+  font-family: Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+input {
+  border-radius: 2px;
+  border-width: 1px;
+}
+
+
+/* === Form CSS start === */
+.form {
+  display: flex;
+  flex-direction: column;
+  max-width: 350px;
+  margin: 0 auto;
+
+  &.inline {
+    flex-direction: row;
+    width: auto;
+    max-width: none;
+  }
+}
+
+.form-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px;
+
+  input {
+    padding-left: 5px;
+  }
+}
+
+.form input[type=submit] {
+  font: inherit;
+  background-color: lightgreen;
+  border-radius: 3px;
+
+  &:focus {
+    outline: none;
+  }
+  &:hover {
+    cursor: pointer;
+  }
+}
+/* === Form CSS end === */
