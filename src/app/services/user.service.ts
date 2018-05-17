@@ -1,58 +1,66 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
-import {isNullOrUndefined} from 'util';
-import {JwtHelperService} from '@auth0/angular-jwt';
+import {TokenHelperService} from './token-helper.service';
 
 @Injectable()
 export class UserService {
-  public email = '';
+  public email: string;
 
-  constructor(private http: HttpClient, private router: Router, private jwtHelper: JwtHelperService) {
+  constructor(private http: HttpClient, private router: Router, private tokenHelper: TokenHelperService) {
+    if (!this.tokenHelper.tokenIsValid()) {
+      this.tokenHelper.delToken();
+    }
+
+    if (this.isAuthenticated()) {
+      this.email = this.tokenHelper.getEmail();
+      this.startTimeoutForToken();
+    }
   }
 
   register(email: string, password: string) {
-    console.log({email, password});
     this.http.post('user/register', {email, password}, {responseType: 'text'})
       .subscribe(token => {
-        this.setToken(token);
+        this.tokenHelper.setToken(token);
+        this.startTimeoutForToken();
         this.email = email;
-        this.simpleNavigation('/todolists');
+        // this.navigate('/todolists');
       });
   }
 
   login(email: string, password: string) {
     this.http.post('user/login', {email, password}, {responseType: 'text'})
       .subscribe(token => {
-        this.setToken(token);
+        this.tokenHelper.setToken(token);
+        this.startTimeoutForToken();
         this.email = email;
-        this.simpleNavigation('/todolists');
+        // this.navigate('/todolists');
       });
   }
 
   logOut() {
-    this.delToken();
-    this.simpleNavigation('/todolists');
+    this.tokenHelper.delToken();
+    // this.navigate('/todolists');
     location.reload(true);
   }
 
-  isAuthenticated() {
-    return this.email !== '';
+  requestNewToken() {
+    this.http.post('user/newToken', {email: this.email}, {responseType: 'text'})
+      .subscribe(token => {
+        this.tokenHelper.setToken(token);
+        this.startTimeoutForToken();
+      });
   }
 
-  private setToken(token: string) {
-    localStorage.setItem('todo-Token', token);
+  isAuthenticated(): boolean {
+    return this.tokenHelper.tokenIsSet();
   }
 
-  private getToken() {
-    return localStorage.getItem('todo-Token');
-  }
-
-  private delToken() {
-    localStorage.removeItem('todo-Token');
-  }
-
-  private simpleNavigation(to: string) {
+  private navigate(to: string) {
     this.router.navigate([to]);
+  }
+
+  private startTimeoutForToken() {
+    setTimeout(() => this.requestNewToken(), this.tokenHelper.getSecondsUntilExpire());
   }
 }

@@ -1,6 +1,6 @@
-<form #form="ngForm" class="form" (submit)="us.logOut()">
+<form #form="ngForm" class="form inline" (submit)="us.logOut()">
   <div class="form-group">
-    <label for="logout">Wilkommen {{us.email}}</label>
-    <input type="submit" id="logout" value="Ausloggen">
+    <label for="logout">Willkommen {{us.email}}</label>
   </div>
+  <input type="submit" id="logout" value="Ausloggen">
 </form>
