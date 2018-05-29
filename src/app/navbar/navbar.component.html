@@ -3,8 +3,8 @@
     <a class="main-nav__logo" href="#">ToDo</a>
     <nav class="main-nav">
       <ul class="main-nav__list">
-        <li class="main-nav__item"><a [routerLink]="['/register']">Register</a></li>
-        <li class="main-nav__item"><a [routerLink]="['/login']">ToDo-Lists</a></li>
+        <li class="main-nav__item"><a [routerLink]="['/register']" *ngIf="!us.isAuthenticated()">Register</a></li>
+        <li class="main-nav__item"><a [routerLink]="['/login']" *ngIf="us.isAuthenticated()">ToDo-Lists</a></li>
       </ul>
     </nav>
   </div>

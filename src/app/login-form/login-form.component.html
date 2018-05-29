@@ -12,6 +12,8 @@
 
 <!-- Normal Form start -->
 <form #form="ngForm" class="form" (submit)="logIn(form)" *ngIf="!displayInline">
+  <h3 style="color: red;text-decoration-line: underline"
+      *ngIf="us.loginFailed">Email oder Passwort ist falsch.</h3>
   <div class="form-group">
     <label for="email">Email</label>
     <input type="text" id="email" name="email" ngModel>

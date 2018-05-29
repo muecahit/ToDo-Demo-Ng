@@ -1,66 +1,80 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
-import {TokenHelperService} from './token-helper.service';
+import {decodeToken, getSecondsUntilExpire, removeToken, setToken, tokenIsValid, getToken, getEmail} from '../utils/TokenHelper';
 
 @Injectable()
 export class UserService {
   public email: string;
+  public loginFailed = false;
 
-  constructor(private http: HttpClient, private router: Router, private tokenHelper: TokenHelperService) {
-    if (!this.tokenHelper.tokenIsValid()) {
-      this.tokenHelper.delToken();
-    }
-
-    if (this.isAuthenticated()) {
-      this.email = this.tokenHelper.getEmail();
-      this.startTimeoutForToken();
-    }
+  constructor(private http: HttpClient, private router: Router) {
+    this.tryLoginOnAppStart();
   }
 
   register(email: string, password: string) {
     this.http.post('user/register', {email, password}, {responseType: 'text'})
       .subscribe(token => {
-        this.tokenHelper.setToken(token);
-        this.startTimeoutForToken();
-        this.email = email;
-        // this.navigate('/todolists');
+        setToken(token);
+        this.login(token);
       });
   }
 
-  login(email: string, password: string) {
+  loginRequest(email: string, password: string) {
     this.http.post('user/login', {email, password}, {responseType: 'text'})
       .subscribe(token => {
-        this.tokenHelper.setToken(token);
-        this.startTimeoutForToken();
-        this.email = email;
-        // this.navigate('/todolists');
+        this.loginFailed = false;
+        setToken(token);
+        this.login(token);
+      }, error => {
+        this.loginFailed = true;
+        this.navigate('/login');
       });
+  }
+
+  login(token: string) {
+    const decodedTokenObj = decodeToken(token);
+
+    if (tokenIsValid(decodedTokenObj)) {
+      this.startTimeoutForToken(decodedTokenObj);
+      this.email = getEmail(decodedTokenObj);
+    } else {
+      removeToken();
+    }
+    this.navigate('/todolists');
   }
 
   logOut() {
-    this.tokenHelper.delToken();
-    // this.navigate('/todolists');
+    removeToken();
+    this.navigate('/');
     location.reload(true);
   }
 
-  requestNewToken() {
+  private requestNewToken() {
     this.http.post('user/newToken', {email: this.email}, {responseType: 'text'})
       .subscribe(token => {
-        this.tokenHelper.setToken(token);
-        this.startTimeoutForToken();
+        setToken(token);
+        this.startTimeoutForToken(decodeToken(token));
       });
   }
 
   isAuthenticated(): boolean {
-    return this.tokenHelper.tokenIsSet();
+    return !!this.email;
   }
 
   private navigate(to: string) {
     this.router.navigate([to]);
   }
 
-  private startTimeoutForToken() {
-    setTimeout(() => this.requestNewToken(), this.tokenHelper.getSecondsUntilExpire());
+  private startTimeoutForToken(token: object) {
+    setTimeout(() => this.requestNewToken(), getSecondsUntilExpire(token));
+  }
+
+  private tryLoginOnAppStart() {
+    const token = getToken();
+
+    if (token) {
+      this.login(token);
+    }
   }
 }

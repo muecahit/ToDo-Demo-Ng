@@ -13,15 +13,16 @@ import {ApiInterceptor} from './interceptors/api.interceptor';
 import {LogoutFormComponent} from './logout-form/logout-form.component';
 import {RegisterComponent} from './register/register.component';
 import {JwtInterceptor} from './interceptors/jwt.interceptor';
-import {TokenHelperService} from './services/token-helper.service';
 import {OnlyNotAuthGuard} from './services/only-not-auth.guard';
 import {OnlyAuthGuard} from './services/only-auth.guard';
+import { TodoListsComponent } from './todo-lists/todo-lists.component';
 
 
 const routes: Route[] = [
-  {path: '', redirectTo: '/login', pathMatch: 'full'},
+  {path: '', redirectTo: '/todolists', pathMatch: 'full'},
   {path: 'login', component: LoginFormComponent, canActivate: [OnlyNotAuthGuard]},
   {path: 'register', component: RegisterComponent, canActivate: [OnlyNotAuthGuard]},
+  {path: 'todolists', component: TodoListsComponent, canActivate: [OnlyAuthGuard]},
   {path: '**', redirectTo: ''}
 ];
 
@@ -31,7 +32,8 @@ const routes: Route[] = [
     NavbarComponent,
     LoginFormComponent,
     LogoutFormComponent,
-    RegisterComponent
+    RegisterComponent,
+    TodoListsComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +42,6 @@ const routes: Route[] = [
     RouterModule.forRoot(routes)
   ],
   providers: [
-    TokenHelperService,
     UserService,
     OnlyAuthGuard,
     OnlyNotAuthGuard,
@@ -49,5 +50,5 @@ const routes: Route[] = [
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {
+export class AppModule{
 }

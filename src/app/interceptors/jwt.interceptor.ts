@@ -1,15 +1,12 @@
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {Injectable} from '@angular/core';
-import {TokenHelperService} from '../services/token-helper.service';
+import {getToken} from '../utils/TokenHelper';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-  constructor(private tokenHelper: TokenHelperService) {
-  }
-
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = this.tokenHelper.getToken();
+    const token = getToken();
     if (token) {
       req = req.clone({setHeaders: {Authorization: `Bearer ${token}`}});
     }
