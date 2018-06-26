@@ -3,7 +3,7 @@ export const removeToken = () => {
 };
 
 export const tokenIsValid = (decodedTokenObj: object): boolean => {
-  return getSecondsUntilExpire(decodedTokenObj) > 0;
+  return getMillisecondsUntilExpire(decodedTokenObj) > 0;
 };
 
 export const decodeToken = (token: string): object => {
@@ -12,8 +12,8 @@ export const decodeToken = (token: string): object => {
   return JSON.parse(payloadString);
 };
 
-export const getSecondsUntilExpire = (decodedTokenObj: object): number => {
-  return decodedTokenObj['exp'] - Date.now();
+export const getMillisecondsUntilExpire = (decodedTokenObj: object): number => {
+  return (decodedTokenObj['exp'] * 1000) - Date.now();
 };
 
 export const setToken = (token: string) => {

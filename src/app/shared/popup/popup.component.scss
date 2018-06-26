@@ -1,0 +1,44 @@
+#backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#popup {
+  position: fixed;
+  //min-width: 30%;
+  //min-height: 50%;
+  z-index: 1001;
+  border-radius: 5px;
+  background: white;
+  padding: 10px;
+}
+
+#popup-content {
+  display: flex;
+  z-index: 1001;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+#close-button {
+  position: relative;
+  z-index: 1001;
+  float: right;
+  top: -35px;
+  right: -32px;
+
+  i {
+    font-size: 30px;
+    color: #840404;
+    cursor: pointer;
+  }
+}

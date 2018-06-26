@@ -1,0 +1,6 @@
+<form #form="ngForm" class="form" (submit)="getSubmitCallback(form)">
+  <div class="form-group">
+    <input type="text" [placeholder]="todoItem ? todoItem.toDo : 'Neue Todo'" name="todo" ngModel>
+    <input type="submit" [value]="renameForm ? 'Speichern' : 'Erstellen'">
+  </div>
+</form>
