@@ -38,7 +38,6 @@ export class UserService {
     if (tokenIsValid(decodedTokenObj)) {
       this.startTimeoutForToken(decodedTokenObj);
       this.email = getEmail(decodedTokenObj);
-      // this.ts.loadTodoItemLists();
     } else {
       removeToken();
     }

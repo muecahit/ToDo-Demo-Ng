@@ -11,7 +11,6 @@ export class TodoService {
   constructor(private http: HttpClient) {
   }
 
-  /** BACKEND DONE */
   loadTodoItemLists() {
     this.http.get<TodoItemList[]>('todoItemLists/getAll')
       .subscribe(todoItemLists => {
@@ -20,13 +19,11 @@ export class TodoService {
       );
   }
 
-  /** BACKEND DONE */
   addTodoItemList(listName: string) {
     this.http.post<TodoItemList>('todoItemLists/create', new TodoItemList(UUID.UUID(), listName, [], 0))
       .subscribe(list => this.todoItemLists.set(list.listName, list));
   }
 
-  /** BACKEND DONE */
   renameTodoItemList(todoItemList: TodoItemList, newListName: string) {
     const params = new HttpParams()
       .append('oldListName', todoItemList.listName)
@@ -39,7 +36,6 @@ export class TodoService {
       });
   }
 
-  /** BACKEND DONE */
   renameTodoItem(listName: string, todoItem: TodoItem, newText: string) {
     const params = new HttpParams()
       .append('id', todoItem.id)
@@ -53,7 +49,6 @@ export class TodoService {
       });
   }
 
-  /** BACKEND DONE */
   removeTodoItemList(item: TodoItemList) {
     const params = new HttpParams()
       .append('id', item.id);
@@ -62,7 +57,6 @@ export class TodoService {
       .subscribe(() => this.todoItemLists.delete(item.listName));
   }
 
-  /** BACKEND DONE */
   addTodoItem(todo: string, todoItemListName: string) {
     const params = new HttpParams()
       .append('todo', todo)
@@ -73,7 +67,6 @@ export class TodoService {
       .subscribe(item => this.todoItemLists.get(todoItemListName).toDoItems.push(item));
   }
 
-  /** BACKEND DONE */
   removeTodoItem(todo: TodoItem, listName: string) {
     const params = new HttpParams()
       .append('id', todo.id);

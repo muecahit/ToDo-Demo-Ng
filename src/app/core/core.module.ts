@@ -11,6 +11,7 @@ import {FormsModule} from '@angular/forms';
 import {OnlyAuthGuard} from './guards/only-auth.guard';
 import {JwtInterceptor} from './jwt.interceptor';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import {ApiInterceptor} from './api.interceptor';
 
 
 const routes: Route[] = [
@@ -40,7 +41,8 @@ const routes: Route[] = [
     UserService,
     OnlyAuthGuard,
     OnlyNotAuthGuard,
-    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
   ]
 })
 export class CoreModule {

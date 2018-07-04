@@ -7,11 +7,6 @@
         <input id="search" type="text" [(ngModel)]="searchString">
       </div>
     </div>
-    <!--<div class="table-header">-->
-    <!--<div class="table-header-item" *ngFor="let col of colConfigs" [ngStyle]="{'width': col['colWidth']}">-->
-    <!--<span>{{col.colDisplayName}}</span>-->
-    <!--</div>-->
-    <!--</div>-->
   </div>
   <div class="table-wrapper">
     <table>
@@ -23,9 +18,9 @@
       <tbody>
       <tr *ngFor="let data of getData()" (click)="selectItem(data)">
         <td *ngFor="let i of order" [width]="tdWidths[i]"><span>{{data[i]}}</span></td>
-        <td class="option-col">
-          <i class="fa fa-pencil" (click)="editItem(data)" appClickStopPropagation></i>
-          <i class="fa fa-close" (click)="deleteItem(data)" appClickStopPropagation></i>
+        <td class="option-col" appClickStopPropagation>
+          <i class="fa fa-pencil" (click)="editItem(data)"></i>
+          <i class="fa fa-close" (click)="deleteItem(data)"></i>
         </td>
       </tr>
       </tbody>

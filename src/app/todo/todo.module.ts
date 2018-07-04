@@ -11,7 +11,6 @@ import {TodoService} from './todo.service';
 
 
 const routes: Route[] = [
-  {path: '', redirectTo: '/todolists', pathMatch: 'full'},
   {path: 'todolists', component: TodoItemListsComponent, canActivate: [OnlyAuthGuard]},
   {path: 'todolists/:listName', component: TodoItemsComponent, canActivate: [OnlyAuthGuard]},
 ];
