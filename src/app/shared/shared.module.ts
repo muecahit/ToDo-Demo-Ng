@@ -13,7 +13,7 @@ import {FormsModule} from '@angular/forms';
   declarations: [
     PopupComponent,
     TableComponent,
-    ClickStopPropagationDirective
+    ClickStopPropagationDirective,
   ],
   exports: [
     FormsModule,

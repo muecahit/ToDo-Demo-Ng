@@ -10,7 +10,6 @@ import {TodoModule} from './todo/todo.module';
 
 
 const routes: Route[] = [
-  {path: '', redirectTo: '/todolists', pathMatch: 'full'},
   {path: '**', redirectTo: ''}
 ];
 

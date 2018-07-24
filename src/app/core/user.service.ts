@@ -32,7 +32,7 @@ export class UserService {
       });
   }
 
-  login(token: string) {
+  login(token: string, onAppStart = false) {
     const decodedTokenObj = decodeToken(token);
 
     if (tokenIsValid(decodedTokenObj)) {
@@ -41,7 +41,9 @@ export class UserService {
     } else {
       removeToken();
     }
-    this.navigate('/todolists');
+    if (!onAppStart) {
+      this.navigate('/todolists');
+    }
   }
 
   logOut() {
@@ -66,15 +68,15 @@ export class UserService {
     this.router.navigate([to]);
   }
 
-  private startTimeoutForToken(token: object) {
-    setTimeout(() => this.requestNewToken(), getMillisecondsUntilExpire(token));
+  private startTimeoutForToken(decodedToken: object) {
+    setTimeout(() => this.requestNewToken(), getMillisecondsUntilExpire(decodedToken));
   }
 
   private tryLoginOnAppStart() {
     const token = getToken();
 
     if (token) {
-      this.login(token);
+      this.login(token, true);
     }
   }
 }

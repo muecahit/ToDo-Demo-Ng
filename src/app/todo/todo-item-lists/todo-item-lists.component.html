@@ -1,8 +1,6 @@
 <div class="container">
-  <app-popup (close)="onPopupClose()" *ngIf="addPopup || renamePopup">
-    <app-todo-item-list-form [addForm]="true" *ngIf="addPopup"></app-todo-item-list-form>
-    <app-todo-item-list-form [renameForm]="true" [todoItemList]="selectedTodoItemList"
-                             *ngIf="renamePopup"></app-todo-item-list-form>
+  <app-popup (close)="onPopupClose()" *ngIf="showPopup">
+    <app-todo-item-list-form [todoItemList]="selectedTodoItemList"></app-todo-item-list-form>
   </app-popup>
 
   <div class="table">
@@ -12,7 +10,7 @@
                (itemDeleted)="onItemRemove($event)"
                (itemSelected)="onItemSelect($event)"
                (itemEdited)="onItemEdit($event)"
-               (addButtonClicked)="addPopup = true">
+               (addButtonClicked)="onAddButtonClick()">
     </app-table>
   </div>
 </div>

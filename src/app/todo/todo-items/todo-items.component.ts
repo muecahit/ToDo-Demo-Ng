@@ -23,14 +23,16 @@ export class TodoItemsComponent implements OnInit {
     }
   ];
 
-  renamePopup = false;
-  addPopup = false;
+  showPopup = false;
   selectedTodoItem: TodoItem = null;
 
   constructor(public ts: TodoService, public ar: ActivatedRoute) {
   }
 
   ngOnInit() {
+    if (this.ts.getTodoItemLists().length === 0) {
+      this.ts.loadTodoItemLists();
+    }
   }
 
   getTodoItemListName(): string {
@@ -46,16 +48,15 @@ export class TodoItemsComponent implements OnInit {
   }
 
   onItemSelect(item: TodoItem) {
-    this.selectedTodoItem = item;
   }
 
   onItemEdit(item: TodoItem) {
     this.selectedTodoItem = item;
-    this.renamePopup = true;
+    this.showPopup = true;
   }
 
   onPopupClose() {
-    this.renamePopup = false;
-    this.addPopup = false;
+    this.showPopup = false;
+    this.selectedTodoItem = null;
   }
 }

@@ -6,7 +6,7 @@ import {UUID} from 'angular2-uuid';
 
 @Injectable()
 export class TodoService {
-  private todoItemLists: Map<string, TodoItemList> = new Map<string, TodoItemList>();
+  public todoItemLists: Map<string, TodoItemList> = new Map<string, TodoItemList>();
 
   constructor(private http: HttpClient) {
   }
@@ -26,7 +26,7 @@ export class TodoService {
 
   renameTodoItemList(todoItemList: TodoItemList, newListName: string) {
     const params = new HttpParams()
-      .append('oldListName', todoItemList.listName)
+      .append('id', todoItemList.id)
       .append('newListName', newListName);
 
     this.http.put<TodoItemList>('todoItemLists/rename', null, {params})
@@ -57,21 +57,20 @@ export class TodoService {
       .subscribe(() => this.todoItemLists.delete(item.listName));
   }
 
-  addTodoItem(todo: string, todoItemListName: string) {
+  addTodoItem(todo: string, todoItemList: TodoItemList) {
     const params = new HttpParams()
       .append('todo', todo)
-      .append('todoItemListId', this.todoItemLists.get(todoItemListName).id);
-
+      .append('todoItemListId', todoItemList.id);
 
     this.http.post<TodoItem>('todoItems/create', null, {params})
-      .subscribe(item => this.todoItemLists.get(todoItemListName).toDoItems.push(item));
+      .subscribe(item => todoItemList.toDoItems.push(item));
   }
 
   removeTodoItem(todo: TodoItem, listName: string) {
     const params = new HttpParams()
       .append('id', todo.id);
 
-    this.http.delete('todoItems/remove', {params: params, responseType: 'text'})
+    this.http.delete('todoItems/remove', {params: params})
       .subscribe(() => {
         const todoItems = this.todoItemLists.get(listName).toDoItems;
         const index = todoItems.findIndex(value => value.id === todo.id);
@@ -84,7 +83,7 @@ export class TodoService {
   }
 
   getTodoItems(listName: string): TodoItem[] {
-    return this.todoItemLists.get(listName).toDoItems;
+    return this.todoItemLists.get(listName) && this.todoItemLists.get(listName).toDoItems;
   }
 
   getTodoItemLists(): TodoItemList[] {

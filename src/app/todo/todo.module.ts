@@ -15,7 +15,6 @@ const routes: Route[] = [
   {path: 'todolists/:listName', component: TodoItemsComponent, canActivate: [OnlyAuthGuard]},
 ];
 
-
 @NgModule({
   imports: [
     CommonModule,

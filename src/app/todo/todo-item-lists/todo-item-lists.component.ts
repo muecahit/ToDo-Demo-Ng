@@ -22,9 +22,7 @@ export class TodoItemListsComponent implements OnInit {
       attributeName: 'amount'
     }
   ];
-
-  addPopup = false;
-  renamePopup = false;
+  showPopup = false;
   selectedTodoItemList: TodoItemList = null;
 
   constructor(public ts: TodoService, public router: Router, public route: ActivatedRoute) {
@@ -44,11 +42,15 @@ export class TodoItemListsComponent implements OnInit {
 
   onItemEdit(item: TodoItemList) {
     this.selectedTodoItemList = item;
-    this.renamePopup = true;
+    this.showPopup = true;
+  }
+
+  onAddButtonClick() {
+    this.showPopup = true;
   }
 
   onPopupClose() {
-    this.addPopup = false;
-    this.renamePopup = false;
+    this.showPopup = false;
+    this.selectedTodoItemList = null;
   }
 }

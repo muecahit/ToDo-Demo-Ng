@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {NgForm} from '@angular/forms';
 import {TodoService} from '../todo.service';
 import TodoItem from '../models/TodoItem';
 import {ActivatedRoute} from '@angular/router';
@@ -10,33 +9,35 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: ['./todo-item-form.component.scss']
 })
 export class TodoItemFormComponent implements OnInit {
-  @Input() renameForm = false;
-  @Input() addForm = false;
   @Input() todoItem: TodoItem = null;
+  todoText = '';
 
   constructor(public ts: TodoService, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-  }
-
-  addTodoItem(form: NgForm) {
-    const todo = form.value.todo;
-    const listName = this.route.snapshot.params['listName'];
-    if (todo.length > 0) {
-      this.ts.addTodoItem(todo, listName);
+    if (this.todoItem) {
+      this.todoText = this.todoItem.toDo;
     }
   }
 
-  saveChanges(form: NgForm) {
-    const todo = form.value.todo;
-    const listName = this.route.snapshot.params['listName'];
-    if (todo.length > 0) {
-      this.ts.renameTodoItem(listName, this.todoItem, todo);
+  addTodoItem() {
+    if (this.todoText.length > 0) {
+      this.ts.addTodoItem(this.todoText, this.ts.todoItemLists.get(this.getListName()));
     }
   }
 
-  getSubmitCallback(form: NgForm) {
-    return this.renameForm ? this.saveChanges(form) : this.addTodoItem(form);
+  saveChanges() {
+    if (this.todoText.length > 0) {
+      this.ts.renameTodoItem(this.getListName(), this.todoItem, this.todoText);
+    }
+  }
+
+  getListName(): string {
+    return this.route.snapshot.params['listName'];
+  }
+
+  getSubmitCallback() {
+    return this.todoItem ? this.saveChanges() : this.addTodoItem();
   }
 }

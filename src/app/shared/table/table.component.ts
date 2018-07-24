@@ -1,11 +1,11 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss']
 })
-export class TableComponent implements OnInit {
+export class TableComponent {
   @Input() colConfigs: ColConfig[] = [];
   @Input() tableData: object[] = [];
   @Input() searchShouldConsider: string[] = [];
@@ -17,19 +17,6 @@ export class TableComponent implements OnInit {
   @Output() addButtonClicked = new EventEmitter();
 
   searchString = '';
-
-  order: string[];
-  tdWidths = {};
-
-  ngOnInit() {
-    const order = [];
-
-    for (const conf of this.colConfigs) {
-      order.push(conf.attributeName);
-      this.tdWidths[conf.attributeName] = conf.colWidth;
-    }
-    this.order = order;
-  }
 
   selectItem(item: object) {
     this.itemSelected.emit(item);
@@ -48,9 +35,13 @@ export class TableComponent implements OnInit {
   }
 
   getData(): object[] {
+    if (this.searchString === '') {
+      return this.tableData;
+    }
+
     return this.tableData.filter(record => {
       for (const attr of this.searchShouldConsider) {
-        if (record[attr].toString().includes(this.searchString)) {
+        if (record[attr].toString().toLowerCase().includes(this.searchString.toLowerCase())) {
           return true;
         }
       }
