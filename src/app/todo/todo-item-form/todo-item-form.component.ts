@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {TodoService} from '../todo.service';
 import TodoItem from '../models/TodoItem';
 import {ActivatedRoute} from '@angular/router';
+import {URLToString} from '../../utils/URLHelper';
 
 @Component({
   selector: 'app-todo-item-form',
@@ -34,7 +35,7 @@ export class TodoItemFormComponent implements OnInit {
   }
 
   getListName(): string {
-    return this.route.snapshot.params['listName'];
+    return URLToString(this.route.snapshot.params['listName']);
   }
 
   getSubmitCallback() {

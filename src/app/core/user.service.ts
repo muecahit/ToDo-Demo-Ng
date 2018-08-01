@@ -61,7 +61,8 @@ export class UserService {
   }
 
   isAuthenticated(): boolean {
-    return !!this.email;
+    const token = getToken();
+    return !!this.email || token && tokenIsValid(decodeToken(token));
   }
 
   private navigate(to: string) {

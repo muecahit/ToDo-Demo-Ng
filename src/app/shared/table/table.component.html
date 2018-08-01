@@ -1,29 +1,27 @@
-<div>
-  <div class="table-options">
-    <button class="add-button" (click)="addButtonClick()"><i class="fa fa-plus"></i>Hinzufügen</button>
-    <div>
-      <label for="search_field">Suche</label>
-      <input id="search_field" type="text" [(ngModel)]="searchString">
-    </div>
+<div class="table-options">
+  <button class="add-button" (click)="addButtonClick()"><i class="fa fa-plus"></i>Hinzufügen</button>
+  <div>
+    <label for="search_field">Suche</label>
+    <input id="search_field" type="text" [(ngModel)]="searchString">
   </div>
-  <div class="table-header">
-    <div class="table-header-item" *ngFor="let col of colConfigs"
-         [ngStyle]="{'width': col['colWidth']}">
-      <span>{{col.colDisplayName}}</span>
-    </div>
-    <div class="table-header-item" [ngStyle]="{'width': '56px'}">
-      <span></span>
-    </div>
+</div>
+<div class="table-header">
+  <div class="table-header-item" *ngFor="let col of colConfigs"
+       [ngStyle]="{'width': col['colWidth']}">
+    <span>{{col.colDisplayName}}</span>
   </div>
-  <div class="table-body">
-    <div class="table-row" *ngFor="let data of getData()" (click)="selectItem(data)">
-      <div class="table-col" *ngFor="let config of colConfigs" [ngStyle]="{width: config['colWidth']}">
-        <span>{{data[config['attributeName']]}}</span>
-      </div>
-      <div class="table-col" appClickStopPropagation [ngStyle]="{width: '56px'}">
-        <i class="fa fa-pencil" (click)="editItem(data)"></i>
-        <i class="fa fa-close" (click)="deleteItem(data)"></i>
-      </div>
+  <div class="table-header-item" [ngStyle]="{'width': '56px'}">
+    <span></span>
+  </div>
+</div>
+<div class="table-body">
+  <div class="table-row" *ngFor="let data of getData()" (click)="selectItem(data)">
+    <div class="table-col" *ngFor="let config of colConfigs" [ngStyle]="{width: config['colWidth']}">
+      <span>{{data[config['attributeName']]}}</span>
+    </div>
+    <div class="table-col" appClickStopPropagation [ngStyle]="{width: '56px'}">
+      <i class="fa fa-pencil" (click)="editItem(data)"></i>
+      <i class="fa fa-close" (click)="removeItem(data)"></i>
     </div>
   </div>
 </div>

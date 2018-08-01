@@ -1,7 +1,7 @@
-export const URLStringToString = (urlString: string): string => {
+export const URLToString = (urlString: string): string => {
   return urlString.replace('_', ' ');
 };
 
-export const StringToURLString = (string: string): string => {
+export const StringToURL = (string: string): string => {
   return string.replace(' ', '_');
 };

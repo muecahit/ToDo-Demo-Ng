@@ -7,7 +7,7 @@
     <app-table [colConfigs]="colConfigs"
                [tableData]="ts.getTodoItemLists()"
                [searchShouldConsider]="['listName', 'amount']"
-               (itemDeleted)="onItemRemove($event)"
+               (itemRemoved)="onItemRemove($event)"
                (itemSelected)="onItemSelect($event)"
                (itemEdited)="onItemEdit($event)"
                (addButtonClicked)="onAddButtonClick()">

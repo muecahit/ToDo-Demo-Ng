@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {TodoService} from '../todo.service';
 import {ActivatedRoute} from '@angular/router';
 import TodoItem from '../models/TodoItem';
-import {URLStringToString} from '../../utils/URLHelper';
+import {URLToString} from '../../utils/URLHelper';
 
 @Component({
   selector: 'app-todo-items',
@@ -36,7 +36,7 @@ export class TodoItemsComponent implements OnInit {
   }
 
   getTodoItemListName(): string {
-    return URLStringToString(this.ar.snapshot.paramMap.get('listName'));
+    return URLToString(this.ar.snapshot.paramMap.get('listName'));
   }
 
   getTodoItems(): TodoItem[] {

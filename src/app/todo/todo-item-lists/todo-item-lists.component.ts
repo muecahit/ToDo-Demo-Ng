@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {TodoService} from '../todo.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {StringToURLString} from '../../utils/URLHelper';
+import {StringToURL} from '../../utils/URLHelper';
 import TodoItemList from '../models/TodoItemList';
 
 @Component({
@@ -37,7 +37,7 @@ export class TodoItemListsComponent implements OnInit {
   }
 
   onItemSelect(item: TodoItemList) {
-    this.router.navigate([StringToURLString(item.listName)], {relativeTo: this.route});
+    this.router.navigate([StringToURL(item.listName)], {relativeTo: this.route});
   }
 
   onItemEdit(item: TodoItemList) {

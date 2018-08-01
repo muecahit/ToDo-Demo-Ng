@@ -12,7 +12,7 @@ export class TableComponent {
 
   @Output() itemSelected = new EventEmitter<object>();
   @Output() itemEdited = new EventEmitter<object>();
-  @Output() itemDeleted = new EventEmitter<object>();
+  @Output() itemRemoved = new EventEmitter<object>();
 
   @Output() addButtonClicked = new EventEmitter();
 
@@ -22,8 +22,8 @@ export class TableComponent {
     this.itemSelected.emit(item);
   }
 
-  deleteItem(item: object) {
-    this.itemDeleted.emit(item);
+  removeItem(item: object) {
+    this.itemRemoved.emit(item);
   }
 
   editItem(item: object) {

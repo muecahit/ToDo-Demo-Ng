@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import TodoItemList from './models/TodoItemList';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import TodoItem from './models/TodoItem';
-import {UUID} from 'angular2-uuid';
 
 @Injectable()
 export class TodoService {
@@ -20,7 +19,10 @@ export class TodoService {
   }
 
   addTodoItemList(listName: string) {
-    this.http.post<TodoItemList>('todoItemLists/create', new TodoItemList(UUID.UUID(), listName, [], 0))
+    const params = new HttpParams()
+      .append('listName', listName);
+
+    this.http.post<TodoItemList>('todoItemLists/create', null, {params})
       .subscribe(list => this.todoItemLists.set(list.listName, list));
   }
 
@@ -31,8 +33,7 @@ export class TodoService {
 
     this.http.put<TodoItemList>('todoItemLists/rename', null, {params})
       .subscribe(renamedTodoItemList => {
-        this.todoItemLists.delete(todoItemList.listName);
-        this.todoItemLists.set(renamedTodoItemList.listName, renamedTodoItemList);
+        this.todoItemLists.get(todoItemList.listName).listName = renamedTodoItemList.listName;
       });
   }
 
