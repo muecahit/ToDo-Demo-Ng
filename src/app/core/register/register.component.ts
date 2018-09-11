@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {UserService} from '../user.service';
 import {NgForm} from '@angular/forms';
 
@@ -7,12 +7,9 @@ import {NgForm} from '@angular/forms';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
 
   constructor(public us: UserService) {
-  }
-
-  ngOnInit() {
   }
 
   register(form: NgForm) {

@@ -6,7 +6,9 @@ import {Injectable} from '@angular/core';
 export class ApiInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    req = req.clone({url: 'http://localhost:59128/api/' + req.url});
+    req = req.clone({
+      url: 'http://localhost:5000/api/' + req.url
+    });
 
     return next.handle(req);
   }

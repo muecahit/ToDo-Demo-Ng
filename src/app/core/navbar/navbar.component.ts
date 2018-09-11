@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {UserService} from '../user.service';
 
 @Component({
@@ -6,11 +6,7 @@ import {UserService} from '../user.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent {
 
   constructor(public us: UserService) { }
-
-  ngOnInit() {
-  }
-
 }
