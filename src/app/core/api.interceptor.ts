@@ -7,7 +7,7 @@ export class ApiInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     req = req.clone({
-      url: 'http://localhost:5000/api/' + req.url
+      url: 'http://localhost:12345/api/' + req.url
     });
 
     return next.handle(req);
